@@ -15,7 +15,18 @@ spring:
         uri: http://localhost:8083/
         predicates:
         - Path=/mongo/**
-
+      - id: sa-message
+        uri: http://localhost:8084/
+        predicates:
+        - Path=/email/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+            - GET
+            - POST
 #logging:
 #  level:
 #    org.springframework: DEBUG
