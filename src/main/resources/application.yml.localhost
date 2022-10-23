@@ -7,22 +7,26 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: sa-mysql
-        uri: lb://sa-mysql/
+      - id: sa-discovery
+        uri: http://localhost:8761/
         predicates:
         - Path=/ui/**
-      - id: sa-user
-        uri: lb://sa-user/
+      - id: sa-mysql
+        uri: http://localhost:8082/
         predicates:
-        - Path=/user/**
+        - Path=/ui/**
       - id: sa-mongo
-        uri: lb://sa-mongo/
+        uri: http://localhost:8083/
         predicates:
         - Path=/mongo/**
       - id: sa-message
-        uri: lb://sa-message/
+        uri: http://localhost:8084/
         predicates:
         - Path=/email/**
+      - id: sa-user
+        uri: http://localhost:8085/
+        predicates:
+        - Path=/user/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -44,5 +48,3 @@ eureka:
   client:
     fetch-registry: true
     registry-fetch-interval-seconds: 5
-    service-url:
-      defaultZone: http://localhost:8761/eureka
