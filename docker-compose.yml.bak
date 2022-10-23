@@ -1,0 +1,73 @@
+version: "3.3"
+
+services:
+
+   sa-angular:
+      image: sa-angular
+      container_name: sa-angular
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - micro-service-network
+      ports:
+        - "4200:80"
+
+   sa-discovery:
+      image: sa-discovery
+      container_name: sa-discovery
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - micro-service-network
+      ports:
+        - "8761:8761"
+
+   sa-gateway:
+      image: sa-gateway
+      container_name: sa-gateway
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - micro-service-network
+      ports:
+        - "8080:8080"
+
+   sa-user:
+      image: sa-user
+      container_name: sa-user
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - micro-service-network 
+      ports:
+        - "8085:8085"
+        
+   sa-mysql:
+      image: sa-mysql
+      container_name: sa-mysql
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - micro-service-network 
+      ports:
+        - "8082:8082"
+      #extra_hosts:
+      #  - "host.docker.internal:172.17.0.1"
+      
+   sa-mongo:
+      image: sa-mongo
+      container_name: sa-mongo
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - micro-service-network 
+      ports:
+        - "8083:8083"
+      #extra_hosts:
+      #  - "host.docker.internal:172.17.0.1"
+        
+
+         
+networks:
+    micro-service-network:
+     driver: bridge
