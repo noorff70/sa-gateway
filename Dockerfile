@@ -18,7 +18,7 @@ COPY ${JAR_FILE} sa-gateway.jar
 # java -jar /opt/app/app.jar
 ENTRYPOINT ["java","-jar","sa-gateway.jar"]
 
-#EXPOSE 8080
+EXPOSE 8081
 
 # Make docker file
 #docker build -t sa-gateway:tag_name .
