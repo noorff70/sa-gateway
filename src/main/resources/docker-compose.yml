@@ -31,7 +31,7 @@ services:
         - "8081:8081"
 
    sa-user:
-      image: sa-user
+      image: faizulnoor/sa-user
       container_name: faizulnoor/sa-user
       environment: 
          - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
@@ -40,32 +40,28 @@ services:
       ports:
         - "8085:8085"
         
-#   sa-mysql:
-#      image: sa-mysql
-#      container_name: sa-mysql
-#      environment: 
-#         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
-#      networks:
-#         - sanetwork 
-#      ports:
-#        - "8082:8082"
-      #extra_hosts:
-      #  - "host.docker.internal:172.17.0.1"
-      
-#  sa-mongo:
-#      image: sa-mongo
-#      container_name: sa-mongo
-#      environment: 
-#         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
-#      networks:
-#         - sanetwork 
-#      ports:
-#        - "8083:8083"
-      #extra_hosts:
-      #  - "host.docker.internal:172.17.0.1"
-        
+   sa-mysql:
+      image: faizulnoor/sa-mysql
+      container_name: sa-mysql
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - sanetwork 
+      ports:
+        - "8082:8082"
 
-         
+   sa-mongo:
+      image: faizulnoor/sa-mongo
+      container_name: sa-mongo
+      environment: 
+         - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+      networks:
+         - sanetwork 
+      ports:
+        - "8083:8083"
+      extra_hosts:
+        - "mongoservice:172.17.0.1"
+        
 networks:
     sanetwork:
      driver: bridge
