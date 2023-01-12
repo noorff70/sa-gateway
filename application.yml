@@ -1,0 +1,49 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: sa-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: sa-mysql
+        uri: lb://sa-mysql/
+        predicates:
+        - Path=/ui/**
+      - id: sa-user
+        uri: lb://sa-user/
+        predicates:
+        - Path=/user/**
+      - id: sa-mongo
+        uri: lb://sa-mongo/
+        predicates:
+        - Path=/mongo/**
+      - id: sa-message
+        uri: lb://sa-message/
+        predicates:
+        - Path=/email/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+            - GET
+            - POST
+#logging:
+#  level:
+#    org.springframework: DEBUG
+#    org.springframework.web: ERROR
+
+eureka:
+  instance:
+    preferIpAddress: false
+    #lease-expiration-duration-in-seconds: 5
+    #lease-renewal-interval-in-seconds: 5
+  client:
+    serviceUrl:
+      # localhost
+      # defaultZone: http://localhost:8761/eureka
+      # docker
+       defaultZone: http://sa-discovery:8761/eureka
