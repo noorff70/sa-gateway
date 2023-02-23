@@ -1,5 +1,10 @@
-server:
+server:  
   port: 8081
+#  ssl:
+#    enabled: true
+#    key-store: classpath:gateway.p12
+#    key-store-password: password
+#   key-alias: gateway
 
 spring:
   application:
@@ -36,14 +41,18 @@ spring:
 #    org.springframework: DEBUG
 #    org.springframework.web: ERROR
 
+#security:
+#  require-ssl: true
+  
 eureka:
   instance:
-    preferIpAddress: false
-    #lease-expiration-duration-in-seconds: 5
-    #lease-renewal-interval-in-seconds: 5
+    #nonSecurePortEnabled: false
+    #securePortEnabled: true
+    #securePort: ${server.port}
+    statusPageUrl: http://0.0.0.0:${server.port}/info
+    healthCheckUrl: http://0.0.0.0:${server.port}/health
+    homePageUrl: http://0.0.0.0:${server.port}
   client:
+    #securePortEnabled: true
     serviceUrl:
-      # localhost
-      # defaultZone: http://localhost:8761/eureka
-      # docker
-       defaultZone: http://sa-discovery:8761/eureka
+      defaultZone: http://0.0.0.0:8761/eureka/
