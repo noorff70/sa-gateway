@@ -1,10 +1,6 @@
 server:  
   port: 8081
-#  ssl:
-#    enabled: true
-#    key-store: classpath:gateway.p12
-#    key-store-password: password
-#   key-alias: gateway
+
 
 spring:
   application:
@@ -12,22 +8,10 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: sa-mysql
-        uri: lb://sa-mysql/
-        predicates:
-        - Path=/ui/**
-      - id: sa-user
-        uri: lb://sa-user/
-        predicates:
-        - Path=/user/**
       - id: sa-mongo
         uri: lb://sa-mongo/
         predicates:
         - Path=/mongo/**
-      - id: sa-message
-        uri: lb://sa-message/
-        predicates:
-        - Path=/email/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -36,10 +20,9 @@ spring:
             allowedMethods:
             - GET
             - POST
-#logging:
-#  level:
-#    org.springframework: DEBUG
-#    org.springframework.web: ERROR
+logging:
+  level:
+    org.springframework.web: ERROR
 
   
 eureka:
