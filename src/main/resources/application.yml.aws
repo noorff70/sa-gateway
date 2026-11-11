@@ -8,10 +8,11 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: sa-mongo
-        uri: lb://sa-mongo/
+      # all website data comes from sa-mysql (sa-mongo and the /mongo/** route were removed)
+      - id: sa-mysql
+        uri: lb://sa-mysql/
         predicates:
-        - Path=/mongo/**
+        - Path=/ui/**
       globalcors:
         corsConfigurations:
           '[/**]':

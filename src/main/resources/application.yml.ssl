@@ -20,10 +20,6 @@ spring:
         uri: lb://sa-user/
         predicates:
         - Path=/user/**
-      - id: sa-mongo
-        uri: lb://sa-mongo/
-        predicates:
-        - Path=/mongo/**
       - id: sa-message
         uri: lb://sa-message/
         predicates:

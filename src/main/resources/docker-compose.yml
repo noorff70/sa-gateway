@@ -36,7 +36,7 @@ services:
 
    sa-user:
       image: faizulnoor/sa-user
-      container_name: faizulnoor/sa-user
+      container_name: sa-user          # was faizulnoor/sa-user: a "/" is not allowed in a container name
       environment: 
          - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
       networks:
@@ -44,30 +44,27 @@ services:
       ports:
         - "8085:8085"
         
+   # all website data: users, courses, lessons, instructor-led courses, payments (MySQL only;
+   # sa-mongo was removed). Set these in the shell or an .env file next to this file, never here:
+   #   STUDYAID_DB_URL (optional, default jdbc:mysql://host.docker.internal:3306/studyaid),
+   #   STUDYAID_DB_USER, STUDYAID_DB_PASSWORD, STRIPE_SECRET_KEY
    sa-mysql:
       image: faizulnoor/sa-mysql
       container_name: sa-mysql
-      environment: 
+      environment:
          - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
+         - SPRING_PROFILES_ACTIVE=aws
+         - STUDYAID_DB_URL=${STUDYAID_DB_URL:-jdbc:mysql://host.docker.internal:3306/studyaid}
+         - STUDYAID_DB_USER=${STUDYAID_DB_USER}
+         - STUDYAID_DB_PASSWORD=${STUDYAID_DB_PASSWORD}
+         - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      extra_hosts:
+         - "host.docker.internal:host-gateway"   # the MySQL server on the host (Linux needs this line)
       networks:
-         - sanetwork 
+         - sanetwork
       ports:
         - "8082:8082"
 
-   sa-mongo:
-      image: faizulnoor/sa-mongo
-      container_name: sa-mongo
-      environment:
-        - eureka.client.serviceUrl.defaultZone=http://sa-discovery:8761/eureka/
-      networks:
-        - sanetwork
-      ports:
-        - "8083:8083"
-      extra_hosts:
-        - "mongoservice:172.17.0.1"
-      #volumes:
-      #  - /home/ubuntu/mytemp:/tmp
-        
 networks:
     sanetwork:
      driver: bridge
